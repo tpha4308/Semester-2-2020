@@ -1,0 +1,1106 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## COMP3670 Programming Assignment 1 - Linear Algebra and Analytic Geometry\n",
+    "---\n",
+    "\n",
+    "**Enter Your Student ID: u7205329**\n",
+    "\n",
+    "**Your Name: Thao Pham**\n",
+    "    \n",
+    "**Deadline:** 23:59 Aug 23 2020\n",
+    "\n",
+    "**Submit:** Write your answers in this file, and submit a single Jupyter Notebook file (.ipynb) on Wattle. Rename this file with your student number as 'uXXXXXXX.ipynb'.\n",
+    "\n",
+    "**Enter Discussion Partner IDs Below:**\n",
+    "You could add more IDs with the same markdown format above.\n",
+    "\n",
+    "\n",
+    "---\n",
+    "**Marking distribution for the homework/assignment**\n",
+    "\n",
+    "- Task1 = 10%\n",
+    "- Task2 = 40%\n",
+    "- Task3 = 10%\n",
+    "- Task4 = 40%"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Task 0: Introduction\n",
+    "---\n",
+    "\n",
+    "**NOTE:** *This part of the first assignment is by necessity somewhat tedious as its primary purpose is to introduce syntax, how to access and understand the Numpy documentation and some very basic concepts. If you are already familiar with Numpy, you can just read the **TASK** headings and complete the questions without worrying about all the additional information. This is designed for people who have never seen Numpy before, so it's a very easy 1st year style introduction to just introduce syntax.*\n",
+    "\n",
+    "*As this is a third year subject, it is assumed you already know to to program well (but may be unfamiliar with Python and Numpy).*\n",
+    "\n",
+    "---\n",
+    "\n",
+    "Arguably the most fundamental tool needed to engage with machine learning in Python is Numpy *(np)*. To include Numpy in any project, simply type the following line at the top of your python file:"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Requirement already satisfied: sympy in /Users/thaopham/me/anaconda3/lib/python3.7/site-packages (1.4)\r\n",
+      "Requirement already satisfied: mpmath>=0.19 in /Users/thaopham/me/anaconda3/lib/python3.7/site-packages (from sympy) (1.1.0)\r\n"
+     ]
+    }
+   ],
+   "source": [
+    "# numpy\n",
+    "import numpy as np\n",
+    "\n",
+    "\n",
+    "!pip install sympy\n",
+    "import sympy as sp\n",
+    "\n",
+    "# display\n",
+    "from IPython.core.display import HTML\n",
+    "\n",
+    "# matplotlib\n",
+    "import matplotlib.pyplot as plt\n",
+    "%matplotlib inline"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Done\n"
+     ]
+    }
+   ],
+   "source": [
+    "# check if numpy can be imported\n",
+    "import numpy as np\n",
+    "\n",
+    "print('Done')"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "A Jupyter Notebook is divided into cells, each of which works like a Python module or Latex file. When a cell is run, any cells that follow it will have access to its results. Running the above cell will give all following cells access to the Numpy library.\n",
+    "\n",
+    "-----------\n",
+    "\n",
+    "   **TASK 0.1:** To run the above cell, select it by clicking on it, hold **shift** and press **return**. If you have succeeded, then the cell will print \"Done\" just above.\n",
+    "\n",
+    "\n",
+    "-----------\n",
+    "\n",
+    "Numpy is a library of common mathematical data structures and algorithms used in machine learning. For example:\n",
+    "\n",
+    "- It allows you to declare vectors and matrices, with all the associated mathematical operations like matrix vector products, matrix addition / subtraction.\n",
+    "- It provides convenient, efficient implementations of algorithms to solve matrix equations, find the inverse of a matrix or perform Eigen decomposition. The implementation of these algorithms is compiled from C code, making Numpy much faster than programming these algorithms yourself in Python.\n",
+    "\n",
+    "You'll need to know Numpy inside and out. We'll start by getting you familiar with the easy to access online documentation and performing a few basic operations.\n",
+    "\n",
+    "Below I have declared the matrices: \n",
+    "\n",
+    "$$A = \n",
+    "\\begin{bmatrix}\n",
+    "2&3\\\\\n",
+    "0&1\\\\\n",
+    "\\end{bmatrix}\n",
+    "\\\\\n",
+    "x = \n",
+    "\\begin{bmatrix}\n",
+    "1\\\\\n",
+    "3\\\\\n",
+    "\\end{bmatrix}\n",
+    "$$. \n",
+    "\n",
+    "---\n",
+    "**TASK 0.2:** Run the cell below and observe what it prints.\n",
+    "\n",
+    "\n",
+    "---\n",
+    "(If it throws an error, you have the wrong version of python installed. This entire course will use Python 3, not Python 2)\n",
+    "\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "\n",
+      "Matrix Multiplication\n",
+      "[[11]\n",
+      " [ 3]]\n"
+     ]
+    }
+   ],
+   "source": [
+    "A = np.array([[2, 3], [0, 1]])\n",
+    "x = np.array([[1], [3]])\n",
+    "\n",
+    "#Matrix Multiplication Example\n",
+    "b = A @ x\n",
+    "print('\\nMatrix Multiplication')\n",
+    "print(b)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "The above code illustrates how to perform matrix multiplication. Memorise it. Below are some other basic operations you'll likely need over the coming semester:"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 5,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "\n",
+      "Matrix Addition\n",
+      "[[3 4]\n",
+      " [3 4]]\n",
+      "\n",
+      "Elementwise Matrix Multiplication\n",
+      "[[2 3]\n",
+      " [0 3]]\n",
+      "\n",
+      "Single Element Extraction\n",
+      "2\n",
+      "\n",
+      "Column Extraction\n",
+      "[2 0]\n",
+      "\n",
+      "Row Extraction\n",
+      "[2 3]\n",
+      "\n",
+      "Transpose\n",
+      "[[2 0]\n",
+      " [3 1]]\n"
+     ]
+    }
+   ],
+   "source": [
+    "#Matrix Addition Example\n",
+    "b = A + x\n",
+    "print('\\nMatrix Addition')\n",
+    "print(b)\n",
+    "\n",
+    "#Elementwise Multiplication Example\n",
+    "b = A * x\n",
+    "print('\\nElementwise Matrix Multiplication')\n",
+    "print(b)\n",
+    "\n",
+    "#Extract a single element of a matrix:\n",
+    "print('\\nSingle Element Extraction')\n",
+    "b = A[0, 0]\n",
+    "print(b)\n",
+    "\n",
+    "#Extract an entire column of a matrix:\n",
+    "print('\\nColumn Extraction')\n",
+    "b = A[:, 0]\n",
+    "print(b)\n",
+    "\n",
+    "#Extract an entire row of a matrix:\n",
+    "print('\\nRow Extraction')\n",
+    "b = A[0, :]\n",
+    "print(b)\n",
+    "\n",
+    "#Transpose of a matrix:\n",
+    "print('\\nTranspose')\n",
+    "A_Transpose = A.T\n",
+    "print(A_Transpose)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Task1: Solving a system of linear equations\n",
+    "---\n",
+    "\n",
+    "A vital part of linear algebra is to know how to solve a system of linear equations. For e.g. \n",
+    "\n",
+    "$$a_{11}x_1+a_{12}x_2 \\dots a_{1d}x_d=b_1$$\n",
+    "$$a_{21}x_1+a_{22}x_2 \\dots a_{2d}x_d=b_2$$\n",
+    "$$\\vdots$$\n",
+    "$$a_{n1}x_1+a_{n2}x_2 \\dots a_{nd}x_d=b_n$$\n",
+    "\n",
+    "The above system of linear equations can also be written down in a compact matrix form as follows:\n",
+    "\n",
+    "$$AX = B$$\n",
+    "\n",
+    "where,\n",
+    "$$A = \\begin{bmatrix}\n",
+    "a_{11} & \\dots & a_{1d}\\\\\n",
+    "\\vdots & \\ddots & \\vdots \\\\\n",
+    "a_{n1} & \\dots & a_{nd}\n",
+    "\\end{bmatrix}, \\quad\n",
+    "B = \\begin{bmatrix}\n",
+    "b_1 \\\\ \\vdots \\\\ b_n\n",
+    "\\end{bmatrix}, \\quad\n",
+    "X = \\begin{bmatrix}\n",
+    "x_1 \\\\ \\vdots \\\\ x_d\n",
+    "\\end{bmatrix}.\n",
+    "$$"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "---\n",
+    "**Task 1.1**: Use numpy's solve function to compute X\n",
+    "\n",
+    "---\n",
+    "**HINT**: https://docs.scipy.org/doc/numpy/reference/generated/numpy.linalg.solve.html"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 6,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "[[-6.]\n",
+      " [ 5.]]\n"
+     ]
+    }
+   ],
+   "source": [
+    "# define A,B\n",
+    "A = np.array([[2, 3], [0, 1]])\n",
+    "B = np.array([[3], [5]])\n",
+    "\n",
+    "def solve_with_numpy(A,B):\n",
+    "    x = np.linalg.solve(A, B)\n",
+    "    return x\n",
+    "\n",
+    "# show solution\n",
+    "X = solve_with_numpy(A,B)\n",
+    "print (X)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "A more hands on way for solving for X, involves computing first computing the inverse of the matrix $A$\n",
+    "\n",
+    "---\n",
+    "**Task 1.2**: Use numpy's inbuilt method for computing the inverse of the matrix $A$\n",
+    "\n",
+    "---\n",
+    "\n",
+    "**HINT**: https://docs.scipy.org/doc/numpy/reference/generated/numpy.linalg.inv.html"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 7,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div class=\"alert alert-block alert-success\">The inverse matrix looks good</div>"
+      ],
+      "text/plain": [
+       "<IPython.core.display.HTML object>"
+      ]
+     },
+     "execution_count": 7,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "A = np.array([[2, 3], [0, 1]])\n",
+    "\n",
+    "A_inv = np.linalg.inv(A)\n",
+    "\n",
+    "# check if A * A_inv = I\n",
+    "assert A_inv is not None,\"Inverse not implemented!\"\n",
+    "assert np.all(A@A_inv == np.eye(A.shape[0])),\"Inverse seems incorrect\"\n",
+    "HTML('<div class=\"alert alert-block alert-success\">The inverse matrix looks good</div>')"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "---\n",
+    "**Task 1.3**: Use the inverse of matrix $A$, to solve for $X$\n",
+    "\n",
+    "---"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 8,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "[[-6.]\n",
+      " [ 5.]]\n"
+     ]
+    }
+   ],
+   "source": [
+    "A = np.array([[2, 3], [0, 1]])\n",
+    "B = np.array([[3], [5]])\n",
+    "\n",
+    "# YOUR CODE HERE\n",
+    "A_inverse = np.linalg.inv(A)\n",
+    "X = A_inverse @ B\n",
+    "\n",
+    "print(X)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "But what if $A$ is not a square matrix?\n",
+    "\n",
+    "---\n",
+    "**Task 1.4**: Compute the Moore-Penrose pseudo inverse for matrix $A$ and use it for computing $X$. Note that, you must not directly use `np.linalg.pinv` for computing the pseudo-inverse.\n",
+    "\n",
+    "---\n",
+    "\n",
+    "**HINT**: https://en.wikipedia.org/wiki/Moore–Penrose_inverse"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 9,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div class=\"alert alert-block alert-success\">The inverse matrix looks good</div>"
+      ],
+      "text/plain": [
+       "<IPython.core.display.HTML object>"
+      ]
+     },
+     "execution_count": 9,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "A = np.array([[1, 3], [2, 7], [5, 1]])\n",
+    "\n",
+    "B = np.array([[13], [30], [9]])\n",
+    "\n",
+    "A_pseudo_inverse = np.linalg.inv(A.T @ A) @ A.T\n",
+    "\n",
+    "X =  A_pseudo_inverse @ B\n",
+    "\n",
+    "# check if everything is good\n",
+    "assert A_pseudo_inverse is not None,\"Inverse not implemented!\"\n",
+    "assert X is not None,\"X not solved!\"\n",
+    "assert np.sum(abs(A_pseudo_inverse - np.linalg.pinv(A)))<1e-6,\"Pseudo inverse seems incorrect\"\n",
+    "assert np.sum(abs(X-np.linalg.lstsq(A,B,rcond=None)[0]))<1e-6,\"X seems incorrect\"\n",
+    "HTML('<div class=\"alert alert-block alert-success\">The inverse matrix looks good</div>')"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Task 2: Computing inverse of a matrix using Gauss–Jordan elimination\n",
+    "\n",
+    "---\n",
+    "In the last task, we used numpy's inbulit functions to compute the inverse of the matrix $A$. Lets see how it is done without using numpy!\n",
+    "\n",
+    "So we want to find the matrix $A^{-1}$ such that:\n",
+    "\n",
+    "$$A A^{-1} = I$$\n",
+    "\n",
+    "This can be done by performing row operations on the matrix $A$, to get an identity matrix while at the same time performing similar row operations on the identity matrix on the right hand side. \n",
+    "\n",
+    "Read more: https://en.wikipedia.org/wiki/Gaussian_elimination#Finding_the_inverse_of_a_matrix"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "But, first lets practice Gaussian elimination!\n",
+    "\n",
+    "---\n",
+    "**Task 2.1**:  Complete the following gaussian elimnation function to compute the reduced row-echelon form of matrix $A$. You must implement the gaussian elimination algorithm yourself, not merely call someone elses library function.\n",
+    "\n",
+    "---\n",
+    "\n",
+    "**HINT:** https://en.wikipedia.org/wiki/Gaussian_elimination"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 39,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "[[ 1.  0.  0. -1.]\n",
+      " [ 0.  1.  0. -1.]\n",
+      " [-0. -0.  1.  2.]\n",
+      " [ 0.  0.  0.  0.]\n",
+      " [ 0.  0.  0.  0.]]\n"
+     ]
+    }
+   ],
+   "source": [
+    "A = np.array([[1, 0, 1, 1],\n",
+    "             [1, 0, 1, 1],\n",
+    "             [0, 1, 1, 1],\n",
+    "             [1, 1, 1, 0],\n",
+    "             [1, 1, 1, 0]])\n",
+    "\n",
+    "def gaussian_elim(A):\n",
+    "    (row, col) = np.shape(A)\n",
+    "    A = A.astype(np.longdouble)\n",
+    "    \n",
+    "    h = 0\n",
+    "    k = 0\n",
+    "    \n",
+    "    while h < row and k < col:\n",
+    "        #find the pivot row\n",
+    "        i = h\n",
+    "        i_max = None\n",
+    "        x_max = -999\n",
+    "        while i < row:\n",
+    "            x = abs(A[i, k])\n",
+    "            if x > x_max:\n",
+    "                x_max = x\n",
+    "                i_max = i\n",
+    "            i += 1\n",
+    "\n",
+    "        if A[i_max, k] == 0:\n",
+    "            k += 1\n",
+    "            \n",
+    "        else:\n",
+    "            #swapping rows \n",
+    "            A[[h, i_max]] = A[[i_max, h]]\n",
+    "\n",
+    "            pivot_row = h\n",
+    "            pivot_col = k\n",
+    "            \n",
+    "            #if the pivot is not equals to 1\n",
+    "            if A[pivot_row, pivot_col] != 0 and A[pivot_row, pivot_col] != 1:\n",
+    "                \n",
+    "                x = 1 / A[pivot_row, pivot_col]\n",
+    "                \n",
+    "                A[pivot_row, :] = A[pivot_row, :]*x\n",
+    "                \n",
+    "            # eliminating the rows above and below \n",
+    "            i = 0\n",
+    "            while i < row:\n",
+    "                if i != pivot_row:\n",
+    "                    x = -A[i, k]\n",
+    "                    A[i,:] = A[i,:] + x*A[pivot_row,:]\n",
+    "\n",
+    "                i += 1\n",
+    "                    \n",
+    "            h += 1\n",
+    "            k += 1\n",
+    "            \n",
+    "    return A\n",
+    "\n",
+    "print(gaussian_elim(A))"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 40,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div class=\"alert alert-block alert-success\">Gaussian elimination function looks good!</div>"
+      ],
+      "text/plain": [
+       "<IPython.core.display.HTML object>"
+      ]
+     },
+     "execution_count": 40,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "# test your gaussian_elim function\n",
+    "def test_gaussian_elim():\n",
+    "    for i in range(100):\n",
+    "        m,n = np.random.randint(low=5,high=10,size=2)\n",
+    "        a = np.random.randn(m,n)\n",
+    "        sol1 = gaussian_elim(a)\n",
+    "        sol2 = np.array(sp.Matrix(a).rref()[0])\n",
+    "        if np.sum((sol1-sol2)**2) > 1e-6:\n",
+    "            print (a,\"\\n\")\n",
+    "            print (gaussian_elim(a),\"\\n\")\n",
+    "            print (np.array(sp.Matrix(a).rref()[0]),\"\\n\")\n",
+    "            return False\n",
+    "    return True\n",
+    "\n",
+    "\n",
+    "assert test_gaussian_elim(),\"Implementation incorrect!\"\n",
+    "HTML('<div class=\"alert alert-block alert-success\">Gaussian elimination function looks good!</div>')"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "---\n",
+    "**Task 2.2**:  Comment on how you would tell if a square matrix is invertible by observing its reduced row-echelon form.\n",
+    "\n",
+    "---\n",
+    "\n",
+    "**Answer**: We check if there is a zero row, if yes then the square matrix is not invertible."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "---\n",
+    "**Task 2.3**:  Modify the gaussian elimination function to also perform similar row operations on the identity matrix to compute the inverse a square matrix $A$. The *compute_inverse* function should be according to following specifications: \n",
+    "* Take as input any square matrix $A$.\n",
+    "* Return:\n",
+    "    - None if $A$ is non-invertible.\n",
+    "    - $A^{-1}$ otherwise. \n",
+    "\n",
+    "---\n",
+    "\n",
+    "**HINT:** https://en.wikipedia.org/wiki/Gaussian_elimination#Finding_the_inverse_of_a_matrix"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 42,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "def check_zero_vector(A):\n",
+    "    (row, col) = np.shape(A)\n",
+    "        \n",
+    "    i = 0\n",
+    "    while i < row:\n",
+    "                \n",
+    "        all_zero = True\n",
+    "        for elem in A[i,:]:\n",
+    "            if elem != 0:\n",
+    "                all_zero = False\n",
+    "                break\n",
+    "                \n",
+    "        if all_zero == True:\n",
+    "            return True\n",
+    "        \n",
+    "        i += 1\n",
+    "        \n",
+    "    return False\n",
+    "        "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 43,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "[[-1.  3.]\n",
+      " [ 1. -2.]]\n"
+     ]
+    }
+   ],
+   "source": [
+    "A = np.array([[2, 3], [1, 1]])\n",
+    "\n",
+    "def compute_inverse(A):\n",
+    "    (row, col) = np.shape(A)\n",
+    "    A = A.astype(np.longdouble)\n",
+    "    \n",
+    "    A_inv = np.eye(row)\n",
+    "    A_inv = A_inv.astype(np.longdouble)\n",
+    "    h = 0\n",
+    "    k = 0\n",
+    "    \n",
+    "    while h < row and k < col:\n",
+    "        #find the pivot row\n",
+    "        i = h\n",
+    "        i_max = None\n",
+    "        x_max = -999\n",
+    "        while i < row:\n",
+    "            x = abs(A[i, k])\n",
+    "            if x > x_max:\n",
+    "                x_max = x\n",
+    "                i_max = i\n",
+    "            i += 1\n",
+    "\n",
+    "        if A[i_max, k] == 0:\n",
+    "            k += 1\n",
+    "            \n",
+    "        else:\n",
+    "            #swapping rows \n",
+    "            A[[h, i_max]] = A[[i_max, h]]\n",
+    "            A_inv[[h, i_max]] = A_inv[[i_max, h]]\n",
+    "\n",
+    "            pivot_row = h\n",
+    "            pivot_col = k\n",
+    "            \n",
+    "            #if the pivot is not equals to 1\n",
+    "            if A[pivot_row, pivot_col] != 0 and A[pivot_row, pivot_col] != 1:\n",
+    "                \n",
+    "                x = 1 / A[pivot_row, pivot_col]\n",
+    "                \n",
+    "                A[pivot_row, :] = A[pivot_row, :]*x\n",
+    "                A_inv[pivot_row, :] = A_inv[pivot_row, :]*x\n",
+    "                \n",
+    "                \n",
+    "            # eliminating the rows above and below \n",
+    "            i = 0\n",
+    "            while i < row:\n",
+    "                if i == pivot_row:\n",
+    "                    i += 1\n",
+    "                else:\n",
+    "                    x = -A[i, k]\n",
+    "                \n",
+    "                    A[i,:] = A[i,:] + x*A[pivot_row,:]\n",
+    "                    A_inv[i,:] = A_inv[i,:] + x*A_inv[pivot_row,:]\n",
+    "                    \n",
+    "                    i += 1\n",
+    "                    \n",
+    "            h += 1\n",
+    "            k += 1\n",
+    "            \n",
+    "            # check for zero vector \n",
+    "            zero_vector = check_zero_vector(A)\n",
+    "            if zero_vector == True:\n",
+    "                return None\n",
+    "    \n",
+    "    return A_inv\n",
+    "\n",
+    "# compute inverse\n",
+    "A_inv = compute_inverse(A)\n",
+    "print(A_inv)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 45,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div class=\"alert alert-block alert-success\">compute inverse function looks good!</div>"
+      ],
+      "text/plain": [
+       "<IPython.core.display.HTML object>"
+      ]
+     },
+     "execution_count": 45,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "# test the inverse function\n",
+    "def test_compute_inverse():\n",
+    "    # separate check when A is non-invertible\n",
+    "    A = np.array([[2, 1], [4, 2]])\n",
+    "    A_inv = compute_inverse(A)\n",
+    "    assert A_inv is None,\"Inverse should be None, if A is non-invertible\"\n",
+    "    \n",
+    "    for i in range(1000):\n",
+    "        m = np.random.randint(low=5,high=10)\n",
+    "        A = np.random.randint(low=0,high=10,size=(m,m))\n",
+    "        #print(A)\n",
+    "        A_inv = compute_inverse(A)\n",
+    "        if A_inv is None:\n",
+    "            if abs(np.linalg.det(A)) > 1e-6:\n",
+    "                print (\"A: \\n{}\\n\".format(A))\n",
+    "                print (\"A_inv: \\n{}\\n\".format(A_inv))\n",
+    "                return False\n",
+    "        elif not np.sum(np.abs(A@A_inv - np.eye(A.shape[0]))) < 1e-6:\n",
+    "            print (\"A: \\n{}\\n\".format(A))\n",
+    "            print (\"A_inv: \\n{}\\n\".format(A_inv))\n",
+    "            return False\n",
+    "    return True\n",
+    "\n",
+    "assert test_compute_inverse(),\"Inverse is not correct\"\n",
+    "HTML('<div class=\"alert alert-block alert-success\">compute inverse function looks good!</div>')"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Task 3: Geometrical intuition for system of linear equations\n",
+    "\n",
+    "---\n",
+    "\n",
+    "In this task we will develop a geometrical intuition for solving the system of linear equations:\n",
+    "\n",
+    "$$AX=B$$\n",
+    "\n",
+    "where if you recall from before:\n",
+    "\n",
+    "$$A = \\begin{bmatrix}\n",
+    "a_{11} & \\dots & a_{1d}\\\\\n",
+    "\\vdots & \\ddots & \\vdots \\\\\n",
+    "a_{n1} & \\dots & a_{nd}\n",
+    "\\end{bmatrix}, \\quad\n",
+    "B = \\begin{bmatrix}\n",
+    "b_1 \\\\ \\vdots \\\\ b_n\n",
+    "\\end{bmatrix}, \\quad\n",
+    "X = \\begin{bmatrix}\n",
+    "x_1 \\\\ \\vdots \\\\ x_d\n",
+    "\\end{bmatrix}.\n",
+    "$$\n",
+    "\n",
+    "This can also be written as:\n",
+    "$$\n",
+    "\\begin{bmatrix}\n",
+    "a_{11} \\\\ \\vdots \\\\ a_{n1}\n",
+    "\\end{bmatrix} \\ x_1\n",
+    "+ \n",
+    "\\begin{bmatrix}\n",
+    "a_{12} \\\\ \\vdots \\\\ a_{n2}\n",
+    "\\end{bmatrix} \\ x_2\n",
+    "+ \\dots\n",
+    "\\begin{bmatrix}\n",
+    "a_{1d} \\\\ \\vdots \\\\ a_{nd}\n",
+    "\\end{bmatrix} \\ x_d\n",
+    "= \\begin{bmatrix}\n",
+    "b_1 \\\\ \\vdots \\\\ b_n\n",
+    "\\end{bmatrix}\n",
+    "$$\n",
+    "\n",
+    "Thats is, solving the system of linear equations $AX=B$ is equivalent to finding a linear combination of the column vectors of matrix $A$, that result in $B$."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "---\n",
+    "**Task 3.1**: Given a matrix $A$ of shape (2 X 2), generate a plot containing arrows representing the column vectors of $A$.\n",
+    "\n",
+    "---\n",
+    "**HINTS:** \n",
+    "\n",
+    "- For $A=I$, the plot should look something like:\n",
+    "![title](https://upload.cc/i1/2019/08/01/LqQUbB.png)\n",
+    "- You'll need to use plt.quiver() with angles='xy', scale_units='xy' and scale=1. \n",
+    "    - https://matplotlib.org/3.1.1/api/_as_gen/matplotlib.pyplot.quiver.html\n",
+    "- You'll need use '*origin' as the origin of the quiver plot, including the asterix."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 46,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "image/png": "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\n",
+      "text/plain": [
+       "<Figure size 432x288 with 1 Axes>"
+      ]
+     },
+     "metadata": {
+      "needs_background": "light"
+     },
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "origin = [0], [0]\n",
+    "\n",
+    "A = np.array([[2, 3], [0, 1]])\n",
+    "\n",
+    "plt.quiver(*origin, A[0], A[1], angles = 'xy', scale_units = 'xy', scale = 1)\n",
+    "\n",
+    "plt.xlim([-5,5])\n",
+    "plt.ylim([-5,5])\n",
+    "plt.title('Visualising coloumn vectors of a matrix')\n",
+    "plt.show()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "---\n",
+    "**Task 3.2**: To the above plot, now add an arrow (with different color) representing vector $B$. While doing so remember to:\n",
+    "* Assign different labels to the arrows for matrix $A$ and $B$, using the keyword `label=A` or `label=B`.\n",
+    "* Display the appropriate legend, with proper labels. Read more: https://matplotlib.org/api/_as_gen/matplotlib.pyplot.legend.html\n",
+    "* Assign colored arrows for matrix $A$ as `color=red` and arrow for vector $B$ as `color=blue`\n",
+    "---"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 28,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "image/png": "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\n",
+      "text/plain": [
+       "<Figure size 432x288 with 1 Axes>"
+      ]
+     },
+     "metadata": {
+      "needs_background": "light"
+     },
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "origin = [0], [0]\n",
+    "\n",
+    "A = np.array([[2, 3], [0, 4]])\n",
+    "\n",
+    "B = np.array([[3], [3]])\n",
+    "\n",
+    "plt.quiver(*origin, A[0], A[1], angles='xy', scale_units='xy', scale = 1, color = 'red', label = 'A')\n",
+    "plt.quiver(*origin, [B.T[0,0],0], [B.T[0,1],0], angles='xy', scale_units='xy', scale = 1, color = 'blue', label = 'B')\n",
+    "\n",
+    "plt.xlim([-5,5])\n",
+    "plt.ylim([-5,5])\n",
+    "plt.legend()\n",
+    "plt.title('Visualising coloumn vectors of a matrix')\n",
+    "plt.show()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "The above plot should convey a more intuitve picture than the simply looking at $AX=B$. Let's test our intuition!\n",
+    "\n",
+    "---\n",
+    "**Task 3.3**: Without calculating, for $X = [x_1 \\ x_2]^T$, analytically comment on the magnitude of $x_1$ and $x_2$. That is choose one of the following:\n",
+    "1. $|x_1| > |x_2|$\n",
+    "2. $|x_1| < |x_2|$\n",
+    "3. $|x_1| \\approx |x_2|$\n",
+    "\n",
+    "---\n",
+    "\n",
+    "**Answer:** 2"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Task 4: Gram-Schmidt orthogonalization\n",
+    "\n",
+    "The Gram-Schmidt algorithm is used for finding an orthonormal basis for the subspace spanned by a set of vectors.\n",
+    "\n",
+    "---\n",
+    "**Read more:** https://en.wikipedia.org/wiki/Gram–Schmidt_process"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "---\n",
+    "**Task 4.1**: Given two linearly independent but non-orthogonal vectors $u_1,u_2$, write down the equations for computing the orthogonal basis $\\{v_1,v_2\\}$ for subspace covered by $\\{u_1,u_2\\}$.\n",
+    "\n",
+    "---\n",
+    "\n",
+    "**Answer** \n",
+    "\n",
+    "$\\textbf{v}_1 = \\textbf{u}_1$\n",
+    "\n",
+    "$\\textbf{v}_2 = \\textbf{u}_2 - \\pi_{span[\\textbf{v}_1]}(\\textbf{u}_2) =  \\textbf{u}_2  - \\frac{\\langle \\textbf{u}_2, \\textbf{v}_1\\rangle}{\\langle  \\textbf{v}_1, \\textbf{v}_1 \\rangle}\\textbf{v}_1$"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "---\n",
+    "**Task 4.2**: Briefly show that $v_1, v_2$ are orthogonal.\n",
+    "\n",
+    "---\n",
+    "\n",
+    "**Answer**"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "![Image](https://i.imgur.com/7wXSSJg.jpg)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "---\n",
+    "**Task 4.3**: Implement a function that finds an orthonormal basis of column vectors for matrix $A$. The *gram_schmidt* function should be according to following specifications: \n",
+    "* Take as input any matrix $A$.\n",
+    "* Return a matrix with the orthonormal basis vectors as the columns.\n",
+    "\n",
+    "---\n",
+    "**NOTE**: The resulting basis should be orthonormal, so each basis vector should be of norm 1."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 47,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Find orthonormal basis using gram-schmidt \n",
+    "def orthogonalise(v, ls):\n",
+    "    u = v\n",
+    "    if len(ls) == 0:\n",
+    "        return u\n",
+    "    else:\n",
+    "        i = 0\n",
+    "        while i < len(ls):\n",
+    "            dot = np.dot(u, ls[i])\n",
+    "            norm_u = np.linalg.norm(ls[i])\n",
+    "            proj = (dot/norm_u) * ls[i]\n",
+    "            u = u - proj\n",
+    "            i += 1\n",
+    "    return u\n",
+    "\n",
+    "def gram_schmidt(A):\n",
+    "    orthonormal_basis = []\n",
+    "    \n",
+    "    k = 0\n",
+    "    while k < len(A.T):\n",
+    "        u = orthogonalise(A.T[k], orthonormal_basis)\n",
+    "        if np.linalg.norm(u) < 1e-6:\n",
+    "            pass\n",
+    "        else:\n",
+    "            normalise_u = u / np.linalg.norm(u)\n",
+    "            orthonormal_basis.append(normalise_u)\n",
+    "        k += 1\n",
+    "    \n",
+    "    return np.array(orthonormal_basis).T\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 52,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div class=\"alert alert-block alert-success\">Gram-schmidt orthogonalization function looks good!</div>"
+      ],
+      "text/plain": [
+       "<IPython.core.display.HTML object>"
+      ]
+     },
+     "execution_count": 52,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "def orthonormality_checker(A):    \n",
+    "    # check orthonormality: for an orthonormal matrix A.T@A = I\n",
+    "    is_orthogonal = (np.sum(np.abs((A.T@A - np.eye(A.shape[1]))**2)) < 1e-6)\n",
+    "    return is_orthogonal\n",
+    "\n",
+    "\n",
+    "# test gaussian_elim function\n",
+    "def test_gram_schmidt():\n",
+    "    for i in range(100):\n",
+    "        m,n = np.random.randint(low=5,high=10,size=2)\n",
+    "        a = np.random.randint(low=0,high=10,size=(m,n))\n",
+    "        orthonormal_basis = gram_schmidt(a)\n",
+    "        if not orthonormality_checker(orthonormal_basis):\n",
+    "            # display the matrix for which the method fails\n",
+    "            print (a,\"\\n\")\n",
+    "            return False\n",
+    "    return True\n",
+    "\n",
+    "assert test_gram_schmidt(),\"Resulting basis vectors are not orthonormal!\"\n",
+    "HTML('<div class=\"alert alert-block alert-success\">Gram-schmidt orthogonalization function looks good!</div>')"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "---\n",
+    "**END OF ASSIGNMENT**\n",
+    "___"
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.7.4"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 2
+}
